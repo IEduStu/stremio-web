@@ -23,9 +23,13 @@ const SearchParamsHandler = () => {
     };
 
     React.useEffect(() => {
-        const { streamingServerUrl } = searchParams;
+        let { streamingServerUrl } = searchParams;
 
         if (streamingServerUrl) {
+            if (streamingServerUrl.startsWith('/')) {
+                streamingServerUrl = (new URL(streamingServerUrl, window.location.href)).href;
+            }
+
             core.transport.dispatch({
                 action: 'Ctx',
                 args: {
